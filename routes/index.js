@@ -14,4 +14,20 @@ router.post('/list', function(req, res, next) {
   })
 });
 
+router.delete('/list/:id', function(req, res, next) {
+  console.log(req.params.id);
+  knex('people').where({id: req.params.id}).del().returning('id').then(function(person){
+    res.json({ title: 'Deleted', person: person })
+  })
+});
+
+router.post('/list/:id', function(req, res, next) {
+  console.log(req.params.id);
+  console.log("data", req.body.data);
+  console.log("body", req.body);
+  knex('people').where({id: req.params.id}).update({name: req.body.data.name, description: req.body.data.description}).returning('*').then(function(person){
+    res.json({ title: 'Updated', person: person })
+  })
+});
+
 module.exports = router;
