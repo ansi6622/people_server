@@ -21,8 +21,8 @@ router.delete('/list/:id', function(req, res, next) {
 });
 
 router.post('/list/:id', function(req, res, next) {
-  console.log(req);
   console.log(req.params.id);
+  console.log(req.body);
   knex('people').where({id: req.params.id}).update({name: req.body.name, description: req.body.description}).returning('*').then(function(person){
     res.json({ title: 'Updated', person: person })
   })
